@@ -18,7 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "users") // "users" porque "user" é palavra reservada no banco
+@Table(name = "users") 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,11 +34,11 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    // Métodos obrigatórios do Spring Security (UserDetails)
+    
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Todo usuário será ADMIN por enquanto
+        
         return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 

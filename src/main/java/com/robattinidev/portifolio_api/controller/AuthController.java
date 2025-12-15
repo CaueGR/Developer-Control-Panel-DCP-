@@ -7,6 +7,7 @@ import com.robattinidev.portifolio_api.infra.security.TokenService;
 import com.robattinidev.portifolio_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails; // Import necessário
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,14 +25,21 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO body) {
-        User user = repository.findByUsername(body.username())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+     
+        UserDetails userDetails = repository.findByUsername(body.username());
 
-        if (passwordEncoder.matches(body.password(), user.getPassword())) {
-            String token = tokenService.generateToken(user);
-            return ResponseEntity.ok(new LoginResponseDTO(token));
+       
+        if (userDetails != null) {
+           
+            if (passwordEncoder.matches(body.password(), userDetails.getPassword())) {
+                
+               
+                String token = tokenService.generateToken((User) userDetails);
+                return ResponseEntity.ok(new LoginResponseDTO(token));
+            }
         }
         
+       
         return ResponseEntity.badRequest().build();
     }
 }

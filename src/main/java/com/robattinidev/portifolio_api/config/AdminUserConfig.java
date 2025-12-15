@@ -22,12 +22,15 @@ public class AdminUserConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
         var userAdmin = userRepository.findByUsername("admin");
 
-        if (userAdmin.isEmpty()) {
+      
+        if (userAdmin == null) {
             User admin = new User();
             admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("123456")); // Senha criptografada
+            admin.setPassword(passwordEncoder.encode("123456"));
             userRepository.save(admin);
             System.out.println("ADMIN USER CREATED: admin / 123456");
+        } else {
+            System.out.println("ADMIN USER JÁ EXISTE");
         }
     }
 }

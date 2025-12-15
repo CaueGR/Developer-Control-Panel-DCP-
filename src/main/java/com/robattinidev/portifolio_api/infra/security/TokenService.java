@@ -13,15 +13,15 @@ import java.util.Date;
 @Service
 public class TokenService {
 
-    // Em produção, isso deve vir de uma Variável de Ambiente
+    
     private static final String SECRET_KEY = "MinhaChaveSecretaSuperSeguraParaOPortfolio"; 
 
     public String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(user.getUsername()) // O "dono" do token
-                .setIssuedAt(new Date()) // Data de criação
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // Expira em 24h
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256) // Assinatura digital
+                .setSubject(user.getUsername()) 
+                .setIssuedAt(new Date()) 
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) 
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -32,9 +32,9 @@ public class TokenService {
                     .build()
                     .parseClaimsJws(token)
                     .getBody()
-                    .getSubject(); // Retorna o email do usuário se for válido
+                    .getSubject(); 
         } catch (Exception e) {
-            return null; // Token inválido ou expirado
+            return null; 
         }
     }
 

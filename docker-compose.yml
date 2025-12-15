@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin_password
     ports:
-      - "5433:5432"  # <--- ISSO É CRUCIAL. Externa 5433 -> Interna 5432
+      - "5433:5432"  
     volumes:
       - postgres_data_final:/var/lib/postgresql/data
 
